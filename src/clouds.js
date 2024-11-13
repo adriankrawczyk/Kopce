@@ -80,7 +80,7 @@ function createClouds(config) {
 
     const cloudElement = document.createElement("img");
     cloudElement.classList.add("cloud");
-    cloudElement.src = `../images/clouds/cloud${randomCloudIndex}.png`;
+    cloudElement.src = `images/clouds/cloud${randomCloudIndex}.png`;
 
     Object.assign(cloudElement.style, {
       width: randomWidth + "px",

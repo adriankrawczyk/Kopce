@@ -10,16 +10,15 @@ function clickEventListeners() {
     location.href =
       "https://www.krakow.pl/odwiedz_krakow/1706,artykul,krakowskie_kopce_.html";
   });
-  const basePath = window.location.pathname.split("/")[1];
 
   document.getElementById("gallery").addEventListener("click", () => {
-    location.href = `/${basePath}/gallery.html`;
+    window.location.replace("gallery.html");
   });
   document.getElementById("contact").addEventListener("click", () => {
-    location.href = `/${basePath}/contact.html`;
+    window.location.replace("contact.html");
   });
   document.getElementById("home").addEventListener("click", () => {
-    location.href = `/${basePath}/index.html`;
+    window.location.replace("index.html");
   });
   const cameraContainer = document.getElementById("camera-container");
   if (cameraContainer) {

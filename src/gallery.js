@@ -39,7 +39,7 @@ const preloadedImages = new Array(TOTAL_IMAGES);
 function preloadImages() {
   for (let i = 0; i < TOTAL_IMAGES; i++) {
     preloadedImages[i] = new Image();
-    preloadedImages[i].src = `../images/gallery/${i + 1}.jpg`;
+    preloadedImages[i].src = `images/gallery/${i + 1}.jpg`;
     preloadedImages[i].onload = () => {
       if (i === currentImageIndex) {
         updateContainerSize();
