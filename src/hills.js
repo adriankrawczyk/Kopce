@@ -1,4 +1,4 @@
-import { hillText } from "hillText.js";
+import { hillText } from "./hillText.js";
 
 function hills() {
   const container = document.getElementById("hill-container");
