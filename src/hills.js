@@ -1,56 +1,70 @@
 import { showText } from "./hillText.js";
 
 function hills() {
-  const container = document.getElementById("hill-container");
-  const hillElement = document.createElement("img");
-  hillElement.src = `images/hill.png`;
-  hillElement.classList.add("hill");
+  // Create promise to handle hill image loading
+  const loadHillImage = () => {
+    return new Promise((resolve) => {
+      const container = document.getElementById("hill-container");
+      const hillElement = document.createElement("img");
+      hillElement.src = `images/hill.png`;
+      hillElement.classList.add("hill");
+      hillElement.style.transition = "opacity 0.3s ease-out";
 
-  // Add transition style for the hill
-  hillElement.style.transition = "opacity 0.3s ease-out";
+      function adjustHillPosition() {
+        const containerWidth = container.clientWidth;
+        const containerHeight = container.clientHeight;
+        const fixedWidth = 1750;
+        const fixedHeight = fixedWidth * 0.6;
 
-  function adjustHillPosition() {
-    const containerWidth = container.clientWidth;
-    const containerHeight = container.clientHeight;
+        const leftPosition = (containerWidth - fixedWidth) / 2;
+        const topPosition =
+          containerHeight - fixedHeight < 0
+            ? (containerHeight - fixedHeight) / 2 + 170
+            : 0;
 
-    const fixedWidth = 1750;
-    const fixedHeight = fixedWidth * 0.6;
+        Object.assign(hillElement.style, {
+          position: "absolute",
+          width: `${fixedWidth}px`,
+          height: `${fixedHeight}px`,
+          transform: "scaleX(-1)",
+          left: `${leftPosition}px`,
+          top: `${topPosition}px`,
+          opacity: 0,
+        });
 
-    const leftPosition = (containerWidth - fixedWidth) / 2;
-    const topPosition =
-      containerHeight - fixedHeight < 0
-        ? (containerHeight - fixedHeight) / 2 + 170
-        : 0;
+        container.dataset.hillLeft = leftPosition;
+        container.dataset.hillWidth = fixedWidth;
+        container.dataset.hillTop = topPosition;
+        container.dataset.hillHeight = fixedHeight;
 
-    Object.assign(hillElement.style, {
-      position: "absolute",
-      width: `${fixedWidth}px`,
-      height: `${fixedHeight}px`,
-      transform: "scaleX(-1)",
-      left: `${leftPosition}px`,
-      top: `${topPosition}px`,
-      opacity: 0,
+        window.dispatchEvent(new CustomEvent("hillPositionUpdated"));
+      }
+
+      hillElement.onload = () => {
+        adjustHillPosition();
+        container.appendChild(hillElement);
+        // Trigger the fade-in animation after a brief delay
+        setTimeout(() => {
+          hillElement.style.opacity = "1";
+          resolve(hillElement); // Resolve the promise when image is loaded and displayed
+        }, 50);
+      };
+
+      window.addEventListener("resize", adjustHillPosition);
     });
-
-    container.dataset.hillLeft = leftPosition;
-    container.dataset.hillWidth = fixedWidth;
-    container.dataset.hillTop = topPosition;
-    container.dataset.hillHeight = fixedHeight;
-
-    window.dispatchEvent(new CustomEvent("hillPositionUpdated"));
-  }
-
-  hillElement.onload = () => {
-    adjustHillPosition();
-    container.appendChild(hillElement);
-    // Trigger the fade-in animation after a brief delay
-    setTimeout(() => {
-      hillElement.style.opacity = "1";
-    }, 50);
   };
 
-  window.addEventListener("resize", adjustHillPosition);
-  initializePoints();
+  // Initialize points after hill image is loaded
+  async function initializeWithHill() {
+    try {
+      await loadHillImage();
+      initializePoints();
+    } catch (error) {
+      console.error("Error loading hill:", error);
+    }
+  }
+
+  initializeWithHill();
 }
 
 function positionPoints() {
@@ -69,8 +83,6 @@ function positionPoints() {
     pointElement.id = `point${index + 1}`;
     pointElement.classList.add("point");
     pointElement.textContent = index + 1;
-
-    // Add transition style for points
     pointElement.style.transition =
       "opacity 0.3s ease-out, transform 0.3s ease-out";
 
