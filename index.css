@@ -201,6 +201,7 @@ footer > #box {
   z-index: 2;
   overflow: hidden;
   background-color: #333;
+  cursor: default;
 }
 
 #image-container img {
