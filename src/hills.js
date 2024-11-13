@@ -1,58 +1,61 @@
 import { showText } from "./hillText.js";
+import { hillText } from "./hillText.js";
 
 function hills() {
+  const container = document.getElementById("hill-container");
+  const hillElement = document.createElement("img");
+  hillElement.src = `../images/hill.png`;
+  hillElement.classList.add("hill");
+  hillElement.style.transition = "opacity 0.3s ease-out";
+  hillElement.style.opacity = "0";
+
+  function adjustHillPosition() {
+    const containerWidth = container.clientWidth;
+    const containerHeight = container.clientHeight;
+
+    const fixedWidth = 1750;
+    const fixedHeight = fixedWidth * 0.6;
+    const leftPosition = (containerWidth - fixedWidth) / 2;
+    const topPosition =
+      containerHeight - fixedHeight < 0
+        ? (containerHeight - fixedHeight) / 2 + 170
+        : 0;
+
+    Object.assign(hillElement.style, {
+      position: "absolute",
+      width: `${fixedWidth}px`,
+      height: `${fixedHeight}px`,
+      transform: "scaleX(-1)",
+      left: `${leftPosition}px`,
+      top: `${topPosition}px`,
+    });
+
+    container.dataset.hillLeft = leftPosition;
+    container.dataset.hillWidth = fixedWidth;
+    container.dataset.hillTop = topPosition;
+    container.dataset.hillHeight = fixedHeight;
+
+    // Trigger point position adjustment
+    window.dispatchEvent(new CustomEvent("hillPositionUpdated"));
+  }
+
   // Create promise to handle hill image loading
   const loadHillImage = () => {
     return new Promise((resolve) => {
-      const container = document.getElementById("hill-container");
-      const hillElement = document.createElement("img");
-      hillElement.src = `images/hill.png`;
-      hillElement.classList.add("hill");
-      hillElement.style.transition = "opacity 0.3s ease-out";
-
-      function adjustHillPosition() {
-        const containerWidth = container.clientWidth;
-        const containerHeight = container.clientHeight;
-        const fixedWidth = 1750;
-        const fixedHeight = fixedWidth * 0.6;
-
-        const leftPosition = (containerWidth - fixedWidth) / 2;
-        const topPosition =
-          containerHeight - fixedHeight < 0
-            ? (containerHeight - fixedHeight) / 2 + 170
-            : 0;
-
-        Object.assign(hillElement.style, {
-          position: "absolute",
-          width: `${fixedWidth}px`,
-          height: `${fixedHeight}px`,
-          transform: "scaleX(-1)",
-          left: `${leftPosition}px`,
-          top: `${topPosition}px`,
-          opacity: 0,
-        });
-
-        container.dataset.hillLeft = leftPosition;
-        container.dataset.hillWidth = fixedWidth;
-        container.dataset.hillTop = topPosition;
-        container.dataset.hillHeight = fixedHeight;
-
-        window.dispatchEvent(new CustomEvent("hillPositionUpdated"));
-      }
-
       hillElement.onload = () => {
         adjustHillPosition();
         container.appendChild(hillElement);
         // Trigger the fade-in animation after a brief delay
         setTimeout(() => {
           hillElement.style.opacity = "1";
-          resolve(hillElement); // Resolve the promise when image is loaded and displayed
+          resolve(hillElement);
         }, 50);
       };
-
-      window.addEventListener("resize", adjustHillPosition);
     });
   };
+
+  // Re-adjust everything on resize
+  window.addEventListener("resize", adjustHillPosition);
 
   // Initialize points after hill image is loaded
   async function initializeWithHill() {
@@ -85,6 +88,7 @@ function positionPoints() {
     pointElement.textContent = index + 1;
     pointElement.style.transition =
       "opacity 0.3s ease-out, transform 0.3s ease-out";
+    pointElement.style.opacity = "0";
 
     const adjustPosition = () => {
       const hillContainer = document.getElementById("hill-container");
@@ -111,14 +115,13 @@ function positionPoints() {
         alignItems: "center",
         justifyContent: "center",
         fontSize: `${pointSize}px`,
-        opacity: 0,
       });
     };
 
     adjustPosition();
     container.appendChild(pointElement);
+    hillText();
 
-    // Trigger the fade-in animation for points after a brief delay
     setTimeout(() => {
       pointElement.style.opacity = "1";
     }, 200 + index * 200); // Stagger the points' appearance

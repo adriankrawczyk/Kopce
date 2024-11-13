@@ -47,7 +47,6 @@ function showText() {
 }
 
 function hillText() {
-  // Add exit button listener
   document.querySelector(".exit").addEventListener("click", () => {
     const infoBlock = document.getElementById("info");
     infoBlock.style.opacity = 0;
@@ -73,8 +72,6 @@ function hillText() {
   });
 }
 
-// Initialize
 preloadImages();
-hillText();
 
 export { hillText, showText };
