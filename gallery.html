@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Galeria</title>
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div id="sun">
+        <img src="./images/info.png" />
+      </div>
+      <nav class="topnav" id="myTopnav">
+        <div class="block-container" id="home">
+          <div class="block">
+            <div class="stick"></div>
+            <span>Kopce</span>
+          </div>
+        </div>
+        <div class="block-container" id="gallery">
+          <div class="block">
+            <span class="active">Galeria</span>
+            <div class="stick"></div>
+          </div>
+        </div>
+        <div class="block-container" id="contact">
+          <div class="block">
+            <div class="stick"></div>
+            <span>Kontakt</span>
+          </div>
+        </div>
+      </nav>
+      <div id="sky">
+        <div id="cloud-container"></div>
+        <div id="image-container"></div>
+        <div class="arrow-container">
+          <div class="arrow left" style="opacity: 0">
+            <img src="./images/arrow_left.png" />
+          </div>
+          <div class="arrow right">
+            <img src="./images/arrow_right.png" />
+          </div>
+        </div>
+      </div>
+      <div id="video-container">
+        <iframe
+          src="https://www.youtube.com/embed/kdG7krp48Go"
+          title="YouTube video player"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        >
+        </iframe>
+        <div class="exit"></div>
+      </div>
+      <div id="camera-container">
+        <div class="stick"></div>
+        <div id="camera-box"><img src="./images/camera.png" /></div>
+      </div>
+      <footer id="footer">
+        <div class="stick"></div>
+        <div id="box">Adrian Krawczyk</div>
+      </footer>
+    </div>
+    <script type="module" src="src/index.js"></script>
+    <script type="module" src="src/gallery.js"></script>
+  </body>
+</html>

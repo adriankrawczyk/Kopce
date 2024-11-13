@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact</title>
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div id="sun">
+        <img src="./images/info.png" />
+      </div>
+      <nav class="topnav" id="myTopnav">
+        <div class="block-container" id="home">
+          <div class="block">
+            <div class="stick"></div>
+            <span>Kopce</span>
+          </div>
+        </div>
+        <div class="block-container" id="gallery">
+          <div class="block">
+            <span>Galeria</span>
+            <div class="stick"></div>
+          </div>
+        </div>
+        <div class="block-container" id="contact">
+          <div class="block">
+            <div class="stick"></div>
+            <span class="active">Kontakt</span>
+          </div>
+        </div>
+      </nav>
+      <div id="sky">
+        <div id="cloud-container"></div>
+        <div id="hill-container"></div>
+        <div id="form">
+          <h1>Zapisz się na wyprawę</h1>
+          <form id="contact-form" onsubmit="return validateForm()">
+            
+            <section>
+            <div>
+              <label for="first-name">Imię:</label><br>
+              <input type="text" id="first-name" name="first-name" placeholder="Wpisz swoje imię" required><br>
+            </div>
+            <br>
+            
+            <div>
+              <label for="last-name">Nazwisko:</label><br>
+              <input type="text" id="last-name" name="last-name" placeholder="Wpisz swoje nazwisko" required><br>
+            </div>
+            <br>
+            
+            <div>
+              <label for="email">E-Mail </label><br>
+              <input type="text" id="email" name="email" placeholder="Wpisz swój email" required><br>
+            </div>
+            <br>
+          </section>
+          <section>
+            <div>
+              <label for="subject">Kopiec:</label><br>
+              <select id="subject" name="subject" required>
+                <option value="">Wybierz kopiec</option>
+                <option value="zapytanie">Krakusa</option>
+                <option value="wskazowki">Piłsudzkiego</option>
+                <option value="uwagi">Wandy</option>
+                <option value="wskazowki">Kościuszki</option>
+                <option value="wskazowki">Jana Pawła II</option>
+              </select>
+            </div>
+            <br>
+            
+            <div>
+              <label for="message">Wiadomość:</label><br>
+              <textarea id="message" name="message" placeholder="Wpisz swoją wiadomość" required></textarea>
+            </div>
+            <br>
+                        <div>
+              <div id="submit-container">
+              <input type="submit" value="Wyślij"  onsubmit="return validateForm()">
+            </div>
+            </div>
+          </section>
+          </form>
+        </div>
+        
+        
+      <footer id="footer">
+        <div class="stick"></div>
+        <div id="box">Adrian Krawczyk</div>
+      </div>
+    </footer>
+    <script type="module" src="src/index.js"></script>
+    <script src="src/validateForm.js"></script>
+
+  </body>
+</html>

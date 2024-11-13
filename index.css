@@ -1,0 +1,455 @@
+@import url("https://fonts.googleapis.com/css2?family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap");
+
+* {
+  font-family: "Sour Gummy", sans-serif;
+  box-sizing: border-box;
+}
+html,
+body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background-color: #e3fdfd;
+}
+
+.container {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#cloud-container,
+#hill-container {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+#sky {
+  width: 95%;
+  height: 95%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: linear-gradient(#e3fdfd, #71c9ce);
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: relative;
+  overflow: hidden;
+  border: 3px solid #333;
+  border-radius: 10px;
+  box-shadow: 0 0 100px 10px rgba(0, 0, 0, 0.2);
+}
+
+#sun {
+  position: absolute;
+  top: -20vh;
+  right: -20vh;
+  width: 40vh;
+  height: 40vh;
+  z-index: 5;
+  background: radial-gradient(circle, #ffff00, #ffee00);
+  box-shadow: 0px 0px 100px 5px rgba(255, 255, 0, 1);
+
+  border-radius: 50%;
+  border: 3px solid #333;
+  transition: transform 0.3s ease-out;
+}
+
+#sun > img {
+  width: 10vh;
+  height: 10vh;
+  position: absolute;
+  top: 22vh;
+  right: 22vh;
+  rotate: -45deg;
+  opacity: 0;
+  transition: opacity 0.3s ease-out, rotate 0.3s ease-out;
+}
+#sun:hover > img {
+  opacity: 1;
+  rotate: 45deg;
+  cursor: pointer;
+}
+
+#sun:hover {
+  transform: scale(1.2);
+  cursor: pointer;
+}
+.cloud {
+  pointer-events: none;
+}
+.arrow-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+}
+
+.arrow > img {
+  transition: transform 0.3s ease-out;
+  width: 75px;
+}
+.arrow:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+}
+.arrow:hover > img {
+  transform: scaleX(-1);
+  cursor: pointer;
+}
+.arrow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 100px;
+  z-index: 3;
+  background-image: linear-gradient(225deg, #e3fdfd, #71c9ce);
+  border: 3px solid #333;
+  border-radius: 10%;
+  transition: transform 0.3s ease-out, opacity 0.3s ease-out,
+    visibility 0.3s ease-out;
+}
+
+nav {
+  position: absolute;
+  top: 0px;
+  width: 330px;
+  height: 100px;
+  z-index: 4;
+  margin-top: -35px;
+  transition: transform 0.3s ease-out;
+  display: flex;
+  justify-content: space-evenly;
+}
+.block > .stick {
+  height: 50px;
+  margin-bottom: 40px;
+  z-index: -1;
+}
+.block-container:hover {
+  transform: translateY(35px);
+  cursor: pointer;
+}
+.block-container {
+  width: 100px;
+  height: 100px;
+  padding-top: 40px;
+  transition: transform 0.3s ease-out;
+}
+.block {
+  background: linear-gradient(135deg, #fb8916, #ffb732);
+  width: 100px;
+  height: 50px;
+  border: 3px solid #333;
+  border-radius: 10%;
+  transition: transform 0.3s ease-out;
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  color: black;
+  font-weight: bold;
+  font-size: 24px;
+}
+.block > span {
+  padding-bottom: 10px;
+  pointer-events: none;
+}
+
+footer:hover {
+  bottom: 0px;
+}
+footer {
+  position: absolute;
+  bottom: -42px;
+  height: 150px;
+  width: 100px;
+  z-index: 2;
+  transition: bottom 0.3s ease-out;
+}
+footer > .stick {
+  margin-left: calc(50% - 5px);
+  height: 100px;
+  bottom: 0px;
+}
+
+footer > #box {
+  text-align: center;
+  vertical-align: middle;
+  background: linear-gradient(270deg, #31f631, #28c428);
+  position: absolute;
+  bottom: 50px;
+  width: 100px;
+  height: 50px;
+  line-height: 22px;
+  color: white;
+  border: 3px solid white;
+  border-radius: 10%;
+  box-shadow: 0 0 0 3px #333;
+  outline: 3px solid #333;
+  pointer-events: none;
+}
+
+#image-container {
+  width: 50%;
+  height: 80%;
+  position: absolute;
+  border: 6px solid #333;
+  border-radius: 5%;
+  z-index: 2;
+  overflow: hidden;
+  background-color: #333;
+}
+
+#image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: calc(5% - 6px);
+  cursor: default;
+}
+
+.point {
+  position: absolute;
+  left: 10%;
+  top: 10%;
+  border: 3px solid #333;
+  width: 50px;
+  height: 50px;
+  z-index: 1;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #fb8916, #ffb732);
+  transition: transform 0.3s ease-out;
+}
+.point:hover {
+  transform: scale(1.2);
+}
+#info {
+  transition: opacity 0.3s ease-out, visibility 0.3s ease-out;
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+  width: 60%;
+  height: 60%;
+  border-radius: 5%;
+  border: 3px solid #333;
+  background: linear-gradient(45deg, #de6f00, #ffb732);
+  z-index: 2;
+  font-size: 8vh;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  text-align: center;
+}
+
+#info > .text {
+  padding-top: 2vh;
+  padding-bottom: 2vh;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.exit {
+  width: 10vh;
+  height: 10vh;
+  border: 3px solid #333;
+  position: absolute;
+
+  border-radius: 50%;
+  background: linear-gradient(45deg, #ff0000, #ff3b3b);
+  transition: transform 0.3s ease-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#info > .exit {
+  right: -5vh;
+  top: -5vh;
+}
+.exit::before,
+.exit::after {
+  content: "";
+  position: absolute;
+  background-color: black;
+  width: 60%;
+  height: 3px;
+}
+
+.exit::before {
+  transform: rotate(45deg);
+}
+
+.exit::after {
+  transform: rotate(-45deg);
+}
+
+.exit:hover {
+  transform: scale(1.2);
+  cursor: pointer;
+}
+.stick {
+  position: absolute;
+  background: linear-gradient(270deg, #a8f6a1, #4a4a4a);
+  border: 3px solid #333;
+  width: 10px;
+}
+#camera-container {
+  position: absolute;
+  width: 160px;
+  height: 90px;
+  left: 0;
+  top: 0;
+  margin-top: 50px;
+  margin-left: -50px;
+  z-index: 3;
+  transition: transform 0.3s ease-out, left 0.3s ease-out;
+}
+#camera-container:hover {
+  transform: translateX(40px);
+  cursor: pointer;
+}
+#camera-container > .stick {
+  height: 100px;
+  left: 25px;
+  rotate: 45deg;
+}
+
+#camera-container > #camera-box {
+  width: 75px;
+  height: 50px;
+  position: absolute;
+  background: linear-gradient(270deg, #a4a4a4, #707070);
+  outline: 3px solid #333;
+  border-radius: 10%;
+  pointer-events: none;
+  left: 58px;
+}
+
+#camera-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#camera-box > img {
+  width: 50px;
+  height: 50px;
+}
+form {
+  display: flex;
+  justify-content: center;
+  gap: 5%;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  transform: scale(1);
+  margin-bottom: 10vh;
+}
+
+@media (min-width: 768px) {
+  form {
+    transform: scale(1.2);
+  }
+}
+
+@media (min-width: 1024px) {
+  form {
+    transform: scale(1.5);
+  }
+}
+
+@media (min-width: 1440px) {
+  form {
+    transform: scale(2);
+  }
+}
+
+input,
+textarea,
+select {
+  border: 3px solid #333;
+}
+input[type="submit"] {
+  transition: transform 0.3s ease-out;
+}
+input[type="submit"]:hover {
+  transform: scale(1.2);
+}
+#submit-container {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+#form {
+  width: 80%;
+  height: 90%;
+  position: absolute;
+  border: 3px solid #333;
+  border-radius: 5%;
+  z-index: 2;
+  overflow: hidden;
+  background: linear-gradient(45deg, #de6f00, #ffb732);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#video-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  width: 70%;
+  height: 90%;
+  position: absolute;
+  border: 3px solid #333;
+  border-radius: 5%;
+  z-index: 2;
+  background: linear-gradient(45deg, #de6f00, #ffb732);
+  transition: opacity 0.3s ease-out, visibility 0.3s ease-out;
+}
+#video-container > .exit {
+  right: -2vh;
+  top: -2vh;
+}
+#video-container > iframe {
+  width: 90%;
+  height: 85%;
+  border-radius: 5%;
+}
+
+.active {
+  background: linear-gradient(270deg, #89ff89, #34ff34);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.info-image {
+  border-radius: 10%;
+  border: 3px solid #333;
+  transition: transform 0.3s ease-in;
+  width: 40%;
+}
+
+.info-image:hover {
+  transform: scale(1.05);
+}
+.text-image-container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+  margin-top: -1vh;
+}
+.text-image-container > section {
+  font-size: 2vw;
+  width: 50%;
+}
+h1 {
+  font-size: 9vh;
+  text-align: center;
+}

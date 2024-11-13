@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kopce w Krakowie</title>
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div id="sun">
+        <img src="./images/info.png" />
+      </div>
+      <nav class="topnav" id="myTopnav">
+        <div class="block-container" id="home">
+          <div class="block">
+            <div class="stick"></div>
+            <span class="active">Kopce</span>
+          </div>
+        </div>
+        <div class="block-container" id="gallery">
+          <div class="block">
+            <span>Galeria</span>
+            <div class="stick"></div>
+          </div>
+        </div>
+        <div class="block-container" id="contact">
+          <div class="block">
+            <div class="stick"></div>
+            <span>Kontakt</span>
+          </div>
+        </div>
+      </nav>
+
+      <div id="sky">
+        <div id="cloud-container"></div>
+
+        <div id="hill-container">
+          <div id="point-container"></div>
+        </div>
+
+        <div id="info">
+          <div class="text">Kopiec Krakusa</div>
+          <div class="text-image-container">
+            <img class="info-image" src="./images/krak.jpg" />
+            <section>
+              Zabytkowy kopiec znajdujący się w Krakowie, w dzielnicy XIII, na
+              prawym brzegu Wisły, w Podgórzu. Ma 16 metrów.
+            </section>
+          </div>
+          <div class="exit"></div>
+        </div>
+      </div>
+
+      <footer id="footer">
+        <div class="stick"></div>
+        <div id="box">Adrian Krawczyk</div>
+      </footer>
+    </div>
+
+    <script type="module" src="src/index.js"></script>
+    <script type="module" src="src/home.js"></script>
+  </body>
+</html>
