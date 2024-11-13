@@ -3,7 +3,7 @@ import { showText } from "./hillText.js";
 function hills() {
   const container = document.getElementById("hill-container");
   const hillElement = document.createElement("img");
-  hillElement.src = `../images/hill.png`;
+  hillElement.src = `images/hill.png`;
   hillElement.classList.add("hill");
   function adjustHillPosition() {
     const containerWidth = container.clientWidth;
