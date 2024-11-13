@@ -1,6 +1,7 @@
 import { showText } from "./hillText.js";
 
 function hills() {
+  alert(1);
   const container = document.getElementById("hill-container");
   const hillElement = document.createElement("img");
   hillElement.src = `images/hill.png`;
