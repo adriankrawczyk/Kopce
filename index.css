@@ -25,6 +25,9 @@ body {
   height: 100%;
   position: absolute;
 }
+.hill {
+  transition: opacity 0.3s ease-out;
+}
 #sky {
   width: 95%;
   height: 95%;
@@ -497,5 +500,23 @@ h1 {
   form {
     display: flex;
     flex-direction: column;
+  }
+}
+
+.flag-container {
+  pointer-events: all;
+}
+.flag-container:hover {
+  cursor: pointer;
+}
+.flag-container:hover > * {
+  animation: upAndDown infinite 1s;
+}
+@keyframes upAndDown {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: translateY(-7px);
   }
 }

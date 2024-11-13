@@ -30,6 +30,7 @@ const HILL_DATA = {
       "Usypany na szczycie Sowińca znajdującego się w Lesie Wolskim. Największy kopiec w Polsce, ma 35 metrów.",
   },
 };
+
 function preloadImages() {
   Object.values(HILL_DATA).forEach((mound) => {
     const img = new Image();
@@ -50,7 +51,6 @@ function hillText() {
     infoBlock.style.visibility = "hidden";
   });
 
-  // Add point listeners
   document.querySelectorAll(".point").forEach((point) => {
     const infoText = document.querySelector(".text");
     const infoImage = document.querySelector(".info-image");
@@ -58,7 +58,6 @@ function hillText() {
 
     point.addEventListener("click", () => {
       const moundInfo = HILL_DATA[point.id];
-
       if (moundInfo) {
         infoText.innerHTML = moundInfo.title;
         infoImage.src = moundInfo.image;
@@ -69,19 +68,14 @@ function hillText() {
   });
 }
 
-preloadImages();
 function hills() {
   const container = document.getElementById("hill-container");
   const hillElement = document.createElement("img");
   hillElement.src = `images/hill.png`;
   hillElement.classList.add("hill");
-  hillElement.style.transition = "opacity 0.3s ease-out";
   hillElement.style.opacity = "0";
 
-  function adjustHillPosition() {
-    const containerWidth = container.clientWidth;
-    const containerHeight = container.clientHeight;
-
+  function calculateHillDimensions(containerWidth, containerHeight) {
     const fixedWidth = 1750;
     const fixedHeight = fixedWidth * 0.6;
     const leftPosition = (containerWidth - fixedWidth) / 2 + 70;
@@ -90,19 +84,34 @@ function hills() {
         ? (containerHeight - fixedHeight) / 2 + 180
         : 0;
 
+    return {
+      width: fixedWidth,
+      height: fixedHeight,
+      left: leftPosition,
+      top: topPosition,
+    };
+  }
+
+  function adjustHillPosition() {
+    const containerWidth = container.clientWidth;
+    const containerHeight = container.clientHeight;
+    const dimensions = calculateHillDimensions(containerWidth, containerHeight);
     Object.assign(hillElement.style, {
       position: "absolute",
-      width: `${fixedWidth}px`,
-      height: `${fixedHeight}px`,
+      width: `${dimensions.width}px`,
+      height: `${dimensions.height}px`,
       transform: "scaleX(-1)",
-      left: `${leftPosition}px`,
-      top: `${topPosition}px`,
+      left: `${dimensions.left}px`,
+      top: `${dimensions.top}px`,
     });
 
-    container.dataset.hillLeft = leftPosition;
-    container.dataset.hillWidth = fixedWidth;
-    container.dataset.hillTop = topPosition;
-    container.dataset.hillHeight = fixedHeight;
+    Object.assign(container.dataset, {
+      hillLeft: dimensions.left,
+      hillWidth: dimensions.width,
+      hillTop: dimensions.top,
+      hillHeight: dimensions.height,
+    });
+
     window.dispatchEvent(new CustomEvent("hillPositionUpdated"));
   }
 
@@ -135,110 +144,187 @@ function hills() {
 
 function positionPoints() {
   const container = document.getElementById("point-container");
-
   const points = [
     { id: "point1", relativeX: 0.385, relativeY: 0.51 },
     { id: "point2", relativeX: 0.395, relativeY: 0.43 },
     { id: "point3", relativeX: 0.44, relativeY: 0.38 },
     { id: "point4", relativeX: 0.48, relativeY: 0.31 },
     { id: "point5", relativeX: 0.49, relativeY: 0.225 },
-    { id: "point6", relativeX: 0.4745, relativeY: 0.123 },
   ];
 
+  let isResizing = false;
+  let resizeTimeout;
+
+  // Create points
   points.forEach((point, index) => {
     const pointElement = document.createElement("div");
-    pointElement.id = `point${index + 1}`;
+    pointElement.id = point.id;
     pointElement.classList.add("point");
-    const adjustPosition = () => {
+
+    const updatePointPosition = () => {
       const hillContainer = document.getElementById("hill-container");
-      const hillLeft = parseFloat(hillContainer.dataset.hillLeft || 0);
-      const hillWidth = parseFloat(hillContainer.dataset.hillWidth || 0);
-      const hillTop = parseFloat(hillContainer.dataset.hillTop || 0);
-      const hillHeight = parseFloat(hillContainer.dataset.hillHeight || 0);
+      const hillWidth = parseFloat(hillContainer.dataset.hillWidth);
+      const hillHeight = parseFloat(hillContainer.dataset.hillHeight);
+      const hillLeft = parseFloat(hillContainer.dataset.hillLeft);
+      const hillTop = parseFloat(hillContainer.dataset.hillTop);
+
       const pointSize = hillWidth * 0.03;
       const leftPosition = hillLeft + hillWidth * point.relativeX;
       const topPosition = hillTop + hillHeight * point.relativeY;
+
+      if (isResizing) {
+        pointElement.style.transition = "none";
+      } else {
+        pointElement.style.transition = "all 0.3s ease-out";
+      }
+
       Object.assign(pointElement.style, {
         position: "absolute",
         left: `${leftPosition - pointSize / 2}px`,
         top: `${topPosition - pointSize / 2}px`,
         width: `${pointSize}px`,
         height: `${pointSize}px`,
+        backgroundColor: "#333",
+        borderRadius: "50%",
+        pointerEvents: "all",
+        cursor: "pointer",
+        color: "black",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        fontSize: `${pointSize}px`,
       });
-      if (point.id === "point6") {
-        if (document.querySelector(".flag-container")) {
-          document.querySelector(".flag-container").remove();
-        }
 
-        const flagContainer = document.createElement("div");
-        flagContainer.classList.add("flag-container");
-
-        const stick = document.createElement("div");
-        stick.classList.add("stick");
-        Object.assign(stick.style, {
-          width: `${pointSize * 0.2}px`,
-          height: `${pointSize * 1.4}px`,
-          backgroundColor: "black",
-          borderRadius: "3px",
-          zIndex: 5,
-        });
-        Object.assign(flagContainer.style, {
-          width: "52px",
-          height: "78px",
-        });
-        const flag = document.createElement("div");
-        flag.classList.add("flag");
-        Object.assign(flag.style, {
-          backgroundImage:
-            "linear-gradient(45deg, #000 25%, transparent 25%), linear-gradient(-45deg, #000 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #000 75%), linear-gradient(-45deg, transparent 75%, #000 75%)",
-          backgroundSize: "20px 20px",
-          backgroundPosition: "0 0, 0 10px, 10px -10px, -10px 0px",
-          backgroundColor: "#fff",
-          position: "absolute",
-          border: "3px solid #333",
-          borderLeft: "0px",
-          marginTop: `${pointSize * 0.11}px`,
-          width: `${pointSize * 0.82}px`,
-          height: `${pointSize * 0.49}px`,
-          left: `${pointSize * 0.19}px`,
-          borderRadius: "0% 10% 10% 0%",
-          zIndex: 2,
-        });
-
-        flagContainer.appendChild(stick);
-        flagContainer.appendChild(flag);
-        pointElement.appendChild(flagContainer);
-        Object.assign(pointElement.style, {
-          border: "0px",
-          backgroundImage: "none",
-        });
-      } else {
-        Object.assign(pointElement.style, {
-          backgroundColor: "#333",
-          borderRadius: "50%",
-          pointerEvents: "all",
-          cursor: "pointer",
-          color: "black",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          fontSize: `${pointSize}px`,
-        });
-        pointElement.textContent = index + 1;
-      }
+      pointElement.textContent = index + 1;
     };
 
-    adjustPosition();
     container.appendChild(pointElement);
-    hillText();
     pointElement.style.opacity = "0";
+    updatePointPosition();
+
     setTimeout(() => {
       pointElement.style.opacity = "1";
     }, 200 + index * 200);
 
-    window.addEventListener("hillPositionUpdated", adjustPosition);
-    window.addEventListener("resize", adjustPosition);
+    window.addEventListener("hillPositionUpdated", () => {
+      updatePointPosition();
+    });
+
+    window.addEventListener("resize", () => {
+      isResizing = true;
+      clearTimeout(resizeTimeout);
+      updatePointPosition();
+
+      resizeTimeout = setTimeout(() => {
+        isResizing = false;
+        updatePointPosition();
+      }, 150);
+    });
   });
+
+  // Create flag
+  const flagElement = document.createElement("div");
+
+  const updateFlagPosition = () => {
+    const hillContainer = document.getElementById("hill-container");
+    const hillWidth = parseFloat(hillContainer.dataset.hillWidth);
+    const hillHeight = parseFloat(hillContainer.dataset.hillHeight);
+    const hillLeft = parseFloat(hillContainer.dataset.hillLeft);
+    const hillTop = parseFloat(hillContainer.dataset.hillTop);
+    const pointSize = hillWidth * 0.03;
+
+    if (isResizing) {
+      flagElement.style.transition = "none";
+    } else {
+      flagElement.style.transition = "all 0.3s ease-out";
+    }
+
+    const flagX = hillLeft + hillWidth * 0.4745;
+    const flagY = hillTop + hillHeight * 0.1226;
+
+    const flagContainer = document.createElement("div");
+    const flagWrapper = document.createElement("div");
+    Object.assign(flagWrapper.style, {
+      transformOrigin: "bottom center",
+      width: "52px",
+      height: "78px",
+      display: "flex",
+    });
+    flagContainer.classList.add("flag-container");
+    Object.assign(flagContainer.style, {
+      position: "absolute",
+      left: `${flagX - pointSize / 2}px`,
+      top: `${flagY - pointSize / 2}px`,
+
+      zIndex: 1,
+      pointerEvents: "all",
+      transformOrigin: "bottom center",
+    });
+    const stick = document.createElement("div");
+    stick.classList.add("stick");
+    Object.assign(stick.style, {
+      position: "absolute",
+      width: `${pointSize * 0.2}px`,
+      height: `${pointSize * 1.4}px`,
+      backgroundColor: "black",
+      borderRadius: "3px",
+      zIndex: 1,
+      pointerEvents: "none",
+    });
+
+    const flag = document.createElement("div");
+    flag.classList.add("flag");
+    Object.assign(flag.style, {
+      backgroundImage: `
+        linear-gradient(45deg, #000 25%, transparent 25%),
+        linear-gradient(-45deg, #000 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #000 75%),
+        linear-gradient(-45deg, transparent 75%, #000 75%)
+      `,
+      backgroundSize: "20px 20px",
+      backgroundPosition: "0 0, 0 10px, 10px -10px, -10px 0px",
+      backgroundColor: "#fff",
+      position: "absolute",
+      border: "3px solid #333",
+      borderLeft: "0px",
+      marginTop: `${pointSize * 0.15}px`,
+      width: `${pointSize * 0.82}px`,
+      height: `${pointSize * 0.49}px`,
+      left: `${pointSize * 0.19}px`,
+      borderRadius: "0% 10% 10% 0%",
+      zIndex: 1,
+      pointerEvents: "none",
+    });
+
+    flagContainer.innerHTML = "";
+    flagWrapper.appendChild(stick);
+    flagWrapper.appendChild(flag);
+    flagContainer.appendChild(flagWrapper);
+    flagElement.innerHTML = "";
+    flagElement.appendChild(flagContainer);
+  };
+
+  container.appendChild(flagElement);
+  flagElement.style.opacity = "0";
+  updateFlagPosition();
+
+  setTimeout(() => {
+    flagElement.style.opacity = "1";
+  }, 200 + points.length * 200);
+
+  window.addEventListener("hillPositionUpdated", updateFlagPosition);
+  window.addEventListener("resize", () => {
+    isResizing = true;
+    clearTimeout(resizeTimeout);
+    updateFlagPosition();
+
+    resizeTimeout = setTimeout(() => {
+      isResizing = false;
+      updateFlagPosition();
+    }, 150);
+  });
+
+  hillText();
 }
 
 function initializePoints() {
@@ -253,5 +339,7 @@ function initializePoints() {
   });
   positionPoints();
 }
+
+preloadImages();
 
 export { hills };
