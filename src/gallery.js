@@ -1,10 +1,10 @@
 const TRANSITION_DURATION = 500;
 const TOTAL_IMAGES = 5;
-const WIDTH_PERCENTAGE = 0.5;
+const WIDTH_PERCENTAGE = 0.75;
 const HEIGHT_PERCENTAGE = 0.8;
-const OFFSET_MULTIPLIER = 2.5;
-const RESIZE_TRANSITION = 300; // Duration for resize transitions
-const HOVER_SCALE = 1.1; // Scale factor for hover effect
+const OFFSET_MULTIPLIER = 0.5;
+const RESIZE_TRANSITION = 300;
+const HOVER_SCALE = 1.1;
 
 let currentImageIndex = 0;
 let isAnimating = false;
@@ -14,7 +14,6 @@ const imageContainer = document.getElementById("image-container");
 const leftArrow = document.querySelector(".arrow.left");
 const rightArrow = document.querySelector(".arrow.right");
 
-// Update transition to include transform scale
 imageContainer.style.transition = `
   transform ${TRANSITION_DURATION}ms ease-in-out,
   width ${RESIZE_TRANSITION}ms ease-out,
@@ -119,35 +118,41 @@ function getMaxDimensions() {
 function slideImage(direction) {
   if (isAnimating || isResizing) return;
   isAnimating = true;
-  const nextIndex =
-    direction === "right" ? currentImageIndex + 1 : currentImageIndex - 1;
   imageContainer.style.transform =
     direction === "right"
-      ? `scale(1) translateX(-${100 * OFFSET_MULTIPLIER}%)`
-      : `scale(1) translateX(${100 * OFFSET_MULTIPLIER}%)`;
-
+      ? `scale(0.5) translateX(-${100 * OFFSET_MULTIPLIER}%)`
+      : `scale(0.5) translateX(${100 * OFFSET_MULTIPLIER}%)`;
+  imageContainer.style.opacity = "0";
   setTimeout(() => {
     imageContainer.style.transition = "none";
-    loadNewImage(nextIndex, () => {
-      imageContainer.style.transform =
-        direction === "right"
-          ? `scale(1) translateX(${100 * OFFSET_MULTIPLIER}%)`
-          : `scale(1) translateX(-${100 * OFFSET_MULTIPLIER}%)`;
+    loadNewImage(
+      direction === "right" ? currentImageIndex + 1 : currentImageIndex - 1,
+      () => {
+        imageContainer.style.transform =
+          direction === "right"
+            ? `scale(0) translateX(${100 * OFFSET_MULTIPLIER}%)`
+            : `scale(0) translateX(-${100 * OFFSET_MULTIPLIER}%)`;
+        imageContainer.style.opacity = "0";
+        requestAnimationFrame(() => {
+          imageContainer.style.transition = ` 
+            transform ${TRANSITION_DURATION}ms ease-out,
+            opacity ${TRANSITION_DURATION}ms ease-out,
+            width ${RESIZE_TRANSITION}ms ease-out,
+            height ${RESIZE_TRANSITION}ms ease-out
+          `;
+          imageContainer.style.transform = "scale(1) translateX(0)";
+          imageContainer.style.opacity = "1";
+        });
 
-      requestAnimationFrame(() => {
-        imageContainer.style.transition = `
-          transform ${TRANSITION_DURATION}ms ease-out,
-          width ${RESIZE_TRANSITION}ms ease-out,
-          height ${RESIZE_TRANSITION}ms ease-out
-        `;
-        imageContainer.style.transform = "scale(1) translateX(0)";
-      });
-
-      setTimeout(() => {
-        currentImageIndex = nextIndex;
-        isAnimating = false;
-      }, TRANSITION_DURATION);
-    });
+        setTimeout(() => {
+          currentImageIndex =
+            direction === "right"
+              ? currentImageIndex + 1
+              : currentImageIndex - 1;
+          isAnimating = false;
+        }, TRANSITION_DURATION);
+      }
+    );
   }, TRANSITION_DURATION);
 }
 

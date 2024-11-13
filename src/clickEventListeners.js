@@ -25,7 +25,7 @@ function clickEventListeners() {
     cameraContainer.addEventListener("click", () => {
       document.getElementById("video-container").style.opacity = 1;
       document.getElementById("video-container").style.visibility = "visible";
-      cameraContainer.style.left = "-100px";
+      cameraContainer.style.left = "-130px";
       cameraContainer.style.pointerEvents = "none";
       setTimeout(() => {
         cameraContainer.style.pointerEvents = "auto";

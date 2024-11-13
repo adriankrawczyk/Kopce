@@ -84,10 +84,10 @@ function hills() {
 
     const fixedWidth = 1750;
     const fixedHeight = fixedWidth * 0.6;
-    const leftPosition = (containerWidth - fixedWidth) / 2;
+    const leftPosition = (containerWidth - fixedWidth) / 2 + 70;
     const topPosition =
       containerHeight - fixedHeight < 0
-        ? (containerHeight - fixedHeight) / 2 + 170
+        ? (containerHeight - fixedHeight) / 2 + 180
         : 0;
 
     Object.assign(hillElement.style, {
