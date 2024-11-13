@@ -3,7 +3,10 @@ import { hillText } from "./hillText.js";
 
 function home() {
   alert(1);
-  hills();
-  hillText();
+  document.addEventListener("DOMContentLoaded", () => {
+    alert(2);
+    hills();
+    hillText();
+  });
 }
 home();
