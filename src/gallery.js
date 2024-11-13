@@ -15,12 +15,12 @@ const leftArrow = document.querySelector(".arrow.left");
 const rightArrow = document.querySelector(".arrow.right");
 
 imageContainer.style.transition = `
-  transform ${TRANSITION_DURATION}ms ease-in-out,
-  width ${RESIZE_TRANSITION}ms ease-out,
-  height ${RESIZE_TRANSITION}ms ease-out
+transform ${TRANSITION_DURATION}ms ease-out,
+opacity ${TRANSITION_DURATION}ms ease-out,
+width ${RESIZE_TRANSITION}ms ease-out,
+height ${RESIZE_TRANSITION}ms ease-out
 `;
 
-// Add hover effect styles
 imageContainer.style.cursor = "pointer";
 imageContainer.addEventListener("mouseenter", () => {
   if (!isAnimating && !isResizing) {
