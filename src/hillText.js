@@ -12,21 +12,21 @@ function hillText() {
       switch (point.id) {
         case "point1": {
           infoText.innerHTML = "Kopiec Jana Pawła II";
-          infoImage.src = "../images/janapawla.jpg";
+          infoImage.src = "images/janapawla.jpg";
           infoSection.innerHTML =
             "Najmłodszy i najmniejszy z krakowskich kopców, usypany na terenie Zgromadzenia Księży Zmartwychwstańców. Ma 7 metrów.";
           break;
         }
         case "point2": {
           infoText.innerHTML = "Kopiec Wandy";
-          infoImage.src = "../images/wandy.jpg";
+          infoImage.src = "images/wandy.jpg";
           infoSection.innerHTML =
             "Kopiec znajdujący się we wschodniej części Krakowa w Nowej Hucie przy ul. Ujastek Mogilski. Ma 14 metrów.";
           break;
         }
         case "point3": {
           infoText.innerHTML = "Kopiec Krakusa";
-          infoImage.src = "../images/krak.jpg";
+          infoImage.src = "images/krak.jpg";
           infoSection.innerHTML =
             "Zabytkowy kopiec znajdujący się w Krakowie, w dzielnicy XIII, na prawym brzegu Wisły, w Podgórzu. Ma 16 metrów.";
 
@@ -34,7 +34,7 @@ function hillText() {
         }
         case "point4": {
           infoText.innerHTML = "Kopiec Kościuszki";
-          infoImage.src = "../images/kosciuszki.jpg";
+          infoImage.src = "images/kosciuszki.jpg";
           infoSection.innerHTML =
             "Poświęcony Tadeuszowi Kościuszce, znajduje się na Górze św. Bronisławy w zachodniej części Krakowa. Ma 34.1 metra.";
 
@@ -42,7 +42,7 @@ function hillText() {
         }
         case "point5": {
           infoText.innerHTML = "Kopiec Józefa Piłsudskiego";
-          infoImage.src = "../images/pilsudzkiego.jpg";
+          infoImage.src = "images/pilsudzkiego.jpg";
           infoSection.innerHTML =
             "Usypany na szczycie Sowińca znajdującego się w Lesie Wolskim. Największy kopiec w Polsce, ma 35 metrów.";
           break;
