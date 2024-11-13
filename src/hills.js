@@ -1,10 +1,9 @@
-import { showText } from "./hillText.js";
-import { hillText } from "./hillText.js";
+import { hillText } from "hillText.js";
 
 function hills() {
   const container = document.getElementById("hill-container");
   const hillElement = document.createElement("img");
-  hillElement.src = `../images/hill.png`;
+  hillElement.src = `images/hill.png`;
   hillElement.classList.add("hill");
   hillElement.style.transition = "opacity 0.3s ease-out";
   hillElement.style.opacity = "0";
