@@ -221,7 +221,6 @@ footer > #box {
   z-index: 1;
   border-radius: 50%;
   background: linear-gradient(135deg, #fb8916, #ffb732);
-  transition: transform 0.3s ease-out;
 }
 .point:hover {
   transform: scale(1.2);
