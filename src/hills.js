@@ -210,7 +210,7 @@ function positionPoints() {
 
     setTimeout(() => {
       pointElement.style.opacity = "1";
-    }, 200 + index * 200);
+    }, 400 + index * 200);
 
     window.addEventListener("hillPositionUpdated", () => {
       updatePointPosition();
@@ -320,7 +320,7 @@ function positionPoints() {
 
   setTimeout(() => {
     flagElement.style.opacity = "1";
-  }, 200 + points.length * 200);
+  }, 400 + points.length * 200);
 
   window.addEventListener("hillPositionUpdated", updateFlagPosition);
   window.addEventListener("resize", () => {
