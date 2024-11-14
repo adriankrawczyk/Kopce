@@ -162,7 +162,6 @@ function positionPoints() {
   let isResizing = false;
   let resizeTimeout;
 
-  // Create points
   points.forEach((point, index) => {
     const pointElement = document.createElement("div");
     pointElement.id = point.id;
@@ -229,7 +228,6 @@ function positionPoints() {
     });
   });
 
-  // Create flag
   const flagElement = document.createElement("div");
 
   const updateFlagPosition = () => {
@@ -299,8 +297,8 @@ function positionPoints() {
       border: "3px solid #333",
       borderLeft: "0px",
       marginTop: `${pointSize * 0.15}px`,
-      width: `${43}px`, // Adjust width with pointSize
-      height: `${26}px`, // Adjust height with pointSize
+      width: `${43}px`,
+      height: `${26}px`,
       left: `${pointSize * 0.19}px`,
       borderRadius: "0% 10% 10% 0%",
       zIndex: 1,

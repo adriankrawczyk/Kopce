@@ -128,7 +128,6 @@ function createClouds(config) {
     animationFrameId = requestAnimationFrame(animate);
   }
 
-  // Resize handler no longer updates cloud positions
   function handleResize() {
     updateDimensions();
   }
