@@ -6,11 +6,6 @@ function clickEventListeners() {
     }, 300);
   });
 
-  document.getElementById("sun").addEventListener("click", () => {
-    location.href =
-      "https://www.krakow.pl/odwiedz_krakow/1706,artykul,krakowskie_kopce_.html";
-  });
-
   document.getElementById("gallery").addEventListener("click", () => {
     window.location.replace("gallery.html");
   });
