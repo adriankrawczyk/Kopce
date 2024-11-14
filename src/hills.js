@@ -85,7 +85,7 @@ function hills() {
   function calculateHillDimensions(containerWidth, containerHeight) {
     const fixedWidth = 1750;
     const fixedHeight = fixedWidth * 0.6;
-    const leftPosition = (containerWidth - fixedWidth) / 2 + 70;
+    const leftPosition = (containerWidth - fixedWidth) / 2 + 20;
     const topPosition =
       containerHeight - fixedHeight < 0
         ? (containerHeight - fixedHeight) / 2 + fixedHeight / 4.5
