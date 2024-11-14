@@ -29,6 +29,12 @@ const HILL_DATA = {
     description:
       "Usypany na szczycie Sowińca znajdującego się w Lesie Wolskim. Największy kopiec w Polsce, ma 35 metrów.",
   },
+  flag: {
+    title: "To już szczyt!",
+    image: "images/wi.jpg",
+    description:
+      "Studenci Wydziału Informatyki AGH (w tym autor tej strony) uwielbiają wyprawy na Krakowskie Kopce 🍌",
+  },
 };
 
 function preloadImages() {
@@ -43,7 +49,18 @@ function showText() {
   infoBlock.style.visibility = "visible";
   infoBlock.style.opacity = 1;
 }
-
+function hillInfo(id) {
+  const infoText = document.querySelector(".text");
+  const infoImage = document.querySelector(".info-image");
+  const infoSection = document.querySelector("section");
+  const info = HILL_DATA[id];
+  if (info) {
+    infoText.innerHTML = info.title;
+    infoImage.src = info.image;
+    infoSection.innerHTML = info.description;
+    showText();
+  }
+}
 function hillText() {
   document.querySelector(".exit").addEventListener("click", () => {
     const infoBlock = document.getElementById("info");
@@ -52,18 +69,8 @@ function hillText() {
   });
 
   document.querySelectorAll(".point").forEach((point) => {
-    const infoText = document.querySelector(".text");
-    const infoImage = document.querySelector(".info-image");
-    const infoSection = document.querySelector("section");
-
     point.addEventListener("click", () => {
-      const moundInfo = HILL_DATA[point.id];
-      if (moundInfo) {
-        infoText.innerHTML = moundInfo.title;
-        infoImage.src = moundInfo.image;
-        infoSection.innerHTML = moundInfo.description;
-        showText();
-      }
+      hillInfo(point.id);
     });
   });
 }
@@ -83,7 +90,6 @@ function hills() {
       containerHeight - fixedHeight < 0
         ? (containerHeight - fixedHeight) / 2 + 180
         : 0;
-
     return {
       width: fixedWidth,
       height: fixedHeight,
@@ -251,6 +257,9 @@ function positionPoints() {
       display: "flex",
     });
     flagContainer.classList.add("flag-container");
+    flagContainer.addEventListener("click", () => {
+      hillInfo("flag");
+    });
     Object.assign(flagContainer.style, {
       position: "absolute",
       left: `${flagX - pointSize / 2}px`,
@@ -281,15 +290,16 @@ function positionPoints() {
         linear-gradient(45deg, transparent 75%, #000 75%),
         linear-gradient(-45deg, transparent 75%, #000 75%)
       `,
-      backgroundSize: "20px 20px",
+      backgroundSize: `${20}px ${20}px`,
       backgroundPosition: "0 0, 0 10px, 10px -10px, -10px 0px",
+      backgroundRepeat: "repeat",
       backgroundColor: "#fff",
       position: "absolute",
       border: "3px solid #333",
       borderLeft: "0px",
       marginTop: `${pointSize * 0.15}px`,
-      width: `${pointSize * 0.82}px`,
-      height: `${pointSize * 0.49}px`,
+      width: `${43}px`, // Adjust width with pointSize
+      height: `${26}px`, // Adjust height with pointSize
       left: `${pointSize * 0.19}px`,
       borderRadius: "0% 10% 10% 0%",
       zIndex: 1,
