@@ -89,7 +89,7 @@ function hills() {
       (containerWidth - fixedWidth) / 2 + containerHeight / 10;
     const topPosition =
       containerHeight - fixedHeight < 0
-        ? (containerHeight - fixedHeight) / 2 + fixedHeight / 4.5
+        ? (containerHeight - fixedHeight) / 2 + containerHeight / 3
         : 0;
     return {
       width: fixedWidth,

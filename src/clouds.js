@@ -5,14 +5,13 @@ function createClouds(config) {
   let grid = null;
   let cellSize = { width: 0, height: 0 };
   let animationFrameId = null;
-  let baseWidth = 0;
+  let baseWidth = 1000;
 
   function updateDimensions() {
     dimensions = {
       width: container.clientWidth,
       height: container.clientHeight,
     };
-    if (!baseWidth) baseWidth = dimensions.width;
     cellSize = {
       width: dimensions.width / config.gridCells,
       height: dimensions.height / config.gridCells,
@@ -111,8 +110,6 @@ function createClouds(config) {
   }
 
   function animate() {
-    const { width } = dimensions;
-
     clouds.forEach((cloud) => {
       cloud.x -= cloud.speed;
       cloud.element.style.left = `${cloud.x}px`;
