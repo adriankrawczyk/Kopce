@@ -87,11 +87,13 @@ function createClouds(config) {
       top: y + "px",
       position: "absolute",
       zIndex: Math.random() <= 0.5 ? 0 : 2,
+      opacity: "0",
     });
 
     setTimeout(() => {
-      cloudElement.style.transition = "left 0.016s linear";
-    }, 0);
+      cloudElement.style.transition = "left 0.016s linear, opacity 0.3s";
+      cloudElement.style.opacity = "1";
+    }, 50);
 
     updateGrid(
       Math.floor(x / cellSize.width),
