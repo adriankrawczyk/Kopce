@@ -33,7 +33,7 @@ const HILL_DATA = {
     title: "To już szczyt!",
     image: "images/wi.jpg",
     description:
-      "Studenci Wydziału Informatyki AGH (w tym autor tej strony) uwielbiają wyprawy na Krakowskie Kopce 🍌",
+      "Studenci Wydziału Informatyki AGH, w tym autor tej strony, uwielbiają wyprawy na Krakowskie Kopce 🍌",
   },
 };
 
