@@ -495,7 +495,7 @@ h1 {
 }
 @media (max-width: 1200px) {
   h1 {
-    font-size: 8vw;
+    font-size: 6vw;
   }
   form {
     display: flex;
