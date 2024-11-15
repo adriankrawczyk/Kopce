@@ -62,7 +62,6 @@ const FLAG_DIMENSIONS = {
   patternOffset: 10,
 };
 
-// Animation and timing constants
 const ANIMATION_DELAYS = {
   HILL_FADE: 50,
   POINT_BASE: 400,
