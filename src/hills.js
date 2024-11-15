@@ -37,6 +37,39 @@ const HILL_DATA = {
   },
 };
 
+const HILL_WIDTH = 1750;
+const HILL_HEIGHT_RATIO = 0.6;
+const CONTAINER_ADJUST = 0.1;
+const POINT_SCALE = 0.03;
+const FLAG_STICK_WIDTH_SCALE = 0.2;
+const FLAG_STICK_HEIGHT_SCALE = 1.4;
+const FLAG_MARGIN_TOP_SCALE = 0.15;
+const FLAG_STICK_OFFSET = 0.19;
+const POINT_POSITIONS = [
+  { id: "point1", relativeX: 0.385, relativeY: 0.51 },
+  { id: "point2", relativeX: 0.395, relativeY: 0.43 },
+  { id: "point3", relativeX: 0.44, relativeY: 0.38 },
+  { id: "point4", relativeX: 0.48, relativeY: 0.31 },
+  { id: "point5", relativeX: 0.49, relativeY: 0.225 },
+];
+const FLAG_POSITION = { relativeX: 0.4745, relativeY: 0.1226 };
+const FLAG_DIMENSIONS = {
+  width: 52,
+  height: 78,
+  flagWidth: 43,
+  flagHeight: 26,
+  patternSize: 20,
+  patternOffset: 10,
+};
+
+// Animation and timing constants
+const ANIMATION_DELAYS = {
+  HILL_FADE: 50,
+  POINT_BASE: 400,
+  POINT_INCREMENT: 200,
+  RESIZE_DEBOUNCE: 150,
+};
+
 function preloadImages() {
   Object.values(HILL_DATA).forEach((mound) => {
     const img = new Image();
@@ -83,10 +116,10 @@ function hills() {
   hillElement.style.opacity = "0";
 
   function calculateHillDimensions(containerWidth, containerHeight) {
-    const fixedWidth = 1750;
-    const fixedHeight = fixedWidth * 0.6;
+    const fixedWidth = HILL_WIDTH;
+    const fixedHeight = fixedWidth * HILL_HEIGHT_RATIO;
     const leftPosition =
-      (containerWidth - fixedWidth) / 2 + containerHeight / 10;
+      (containerWidth - fixedWidth) / 2 + containerHeight * CONTAINER_ADJUST;
     const topPosition =
       containerHeight - fixedHeight < 0
         ? (containerHeight - fixedHeight) / 2 + containerHeight / 3
@@ -130,7 +163,7 @@ function hills() {
         setTimeout(() => {
           hillElement.style.opacity = "1";
           resolve(hillElement);
-        }, 50);
+        }, ANIMATION_DELAYS.HILL_FADE);
       };
     });
   };
@@ -151,13 +184,7 @@ function hills() {
 
 function positionPoints() {
   const container = document.getElementById("point-container");
-  const points = [
-    { id: "point1", relativeX: 0.385, relativeY: 0.51 },
-    { id: "point2", relativeX: 0.395, relativeY: 0.43 },
-    { id: "point3", relativeX: 0.44, relativeY: 0.38 },
-    { id: "point4", relativeX: 0.48, relativeY: 0.31 },
-    { id: "point5", relativeX: 0.49, relativeY: 0.225 },
-  ];
+  const points = POINT_POSITIONS;
 
   let isResizing = false;
   let resizeTimeout;
@@ -174,7 +201,7 @@ function positionPoints() {
       const hillLeft = parseFloat(hillContainer.dataset.hillLeft);
       const hillTop = parseFloat(hillContainer.dataset.hillTop);
 
-      const pointSize = hillWidth * 0.03;
+      const pointSize = hillWidth * POINT_SCALE;
       const leftPosition = hillLeft + hillWidth * point.relativeX;
       const topPosition = hillTop + hillHeight * point.relativeY;
 
@@ -210,7 +237,7 @@ function positionPoints() {
 
     setTimeout(() => {
       pointElement.style.opacity = "1";
-    }, 400 + index * 200);
+    }, ANIMATION_DELAYS.POINT_BASE + index * ANIMATION_DELAYS.POINT_INCREMENT);
 
     window.addEventListener("hillPositionUpdated", () => {
       updatePointPosition();
@@ -224,7 +251,7 @@ function positionPoints() {
       resizeTimeout = setTimeout(() => {
         isResizing = false;
         updatePointPosition();
-      }, 150);
+      }, ANIMATION_DELAYS.RESIZE_DEBOUNCE);
     });
   });
 
@@ -236,7 +263,7 @@ function positionPoints() {
     const hillHeight = parseFloat(hillContainer.dataset.hillHeight);
     const hillLeft = parseFloat(hillContainer.dataset.hillLeft);
     const hillTop = parseFloat(hillContainer.dataset.hillTop);
-    const pointSize = hillWidth * 0.03;
+    const pointSize = hillWidth * POINT_SCALE;
 
     if (isResizing) {
       flagElement.style.transition = "none";
@@ -244,15 +271,15 @@ function positionPoints() {
       flagElement.style.transition = "all 0.3s ease-out";
     }
 
-    const flagX = hillLeft + hillWidth * 0.4745;
-    const flagY = hillTop + hillHeight * 0.1226;
+    const flagX = hillLeft + hillWidth * FLAG_POSITION.relativeX;
+    const flagY = hillTop + hillHeight * FLAG_POSITION.relativeY;
 
     const flagContainer = document.createElement("div");
     const flagWrapper = document.createElement("div");
     Object.assign(flagWrapper.style, {
       transformOrigin: "bottom center",
-      width: "52px",
-      height: "78px",
+      width: `${FLAG_DIMENSIONS.width}px`,
+      height: `${FLAG_DIMENSIONS.height}px`,
       display: "flex",
     });
     flagContainer.classList.add("flag-container");
@@ -263,7 +290,6 @@ function positionPoints() {
       position: "absolute",
       left: `${flagX - pointSize / 2}px`,
       top: `${flagY - pointSize / 2}px`,
-
       zIndex: 1,
       pointerEvents: "all",
       transformOrigin: "bottom center",
@@ -272,8 +298,8 @@ function positionPoints() {
     stick.classList.add("stick");
     Object.assign(stick.style, {
       position: "absolute",
-      width: `${pointSize * 0.2}px`,
-      height: `${pointSize * 1.4}px`,
+      width: `${pointSize * FLAG_STICK_WIDTH_SCALE}px`,
+      height: `${pointSize * FLAG_STICK_HEIGHT_SCALE}px`,
       backgroundColor: "black",
       borderRadius: "3px",
       zIndex: 1,
@@ -289,17 +315,17 @@ function positionPoints() {
         linear-gradient(45deg, transparent 75%, #000 75%),
         linear-gradient(-45deg, transparent 75%, #000 75%)
       `,
-      backgroundSize: `${20}px ${20}px`,
-      backgroundPosition: "0 0, 0 10px, 10px -10px, -10px 0px",
+      backgroundSize: `${FLAG_DIMENSIONS.patternSize}px ${FLAG_DIMENSIONS.patternSize}px`,
+      backgroundPosition: `0 0, 0 ${FLAG_DIMENSIONS.patternOffset}px, ${FLAG_DIMENSIONS.patternOffset}px -${FLAG_DIMENSIONS.patternOffset}px, -${FLAG_DIMENSIONS.patternOffset}px 0px`,
       backgroundRepeat: "repeat",
       backgroundColor: "#fff",
       position: "absolute",
       border: "3px solid #333",
       borderLeft: "0px",
-      marginTop: `${pointSize * 0.15}px`,
-      width: `${43}px`,
-      height: `${26}px`,
-      left: `${pointSize * 0.19}px`,
+      marginTop: `${pointSize * FLAG_MARGIN_TOP_SCALE}px`,
+      width: `${FLAG_DIMENSIONS.flagWidth}px`,
+      height: `${FLAG_DIMENSIONS.flagHeight}px`,
+      left: `${pointSize * FLAG_STICK_OFFSET}px`,
       borderRadius: "0% 10% 10% 0%",
       zIndex: 1,
       pointerEvents: "none",
@@ -319,7 +345,7 @@ function positionPoints() {
 
   setTimeout(() => {
     flagElement.style.opacity = "1";
-  }, 400 + points.length * 200);
+  }, ANIMATION_DELAYS.POINT_BASE + points.length * ANIMATION_DELAYS.POINT_INCREMENT);
 
   window.addEventListener("hillPositionUpdated", updateFlagPosition);
   window.addEventListener("resize", () => {
@@ -330,7 +356,7 @@ function positionPoints() {
     resizeTimeout = setTimeout(() => {
       isResizing = false;
       updateFlagPosition();
-    }, 150);
+    }, ANIMATION_DELAYS.RESIZE_DEBOUNCE);
   });
 
   hillText();
