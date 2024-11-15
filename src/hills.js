@@ -121,7 +121,7 @@ function hills() {
       (containerWidth - fixedWidth) / 2 + containerHeight * CONTAINER_ADJUST;
     const topPosition =
       containerHeight - fixedHeight < 0
-        ? (containerHeight - fixedHeight) / 2 + containerHeight / 3
+        ? (containerHeight - fixedHeight) / 2 + containerHeight / 2.4
         : 0;
     return {
       width: fixedWidth,
